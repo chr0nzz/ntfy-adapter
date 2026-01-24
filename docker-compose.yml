@@ -1,7 +1,6 @@
 services:
   ntfy-adapter:
     image: ghcr.io/chr0nzz/ntfy-adapter:latest
-    # build: ./ntfy-adapter #uncomment to build from source
     container_name: ntfy-adapter
     restart: unless-stopped
     environment:
