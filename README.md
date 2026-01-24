@@ -28,7 +28,7 @@ Create a `docker-compose.yml` file:
 ```yaml
 services:
   ntfy-adapter:
-    image: ghcr.io/your-username/ntfy-adapter:latest
+    image: ghcr.io/chr0nzz/ntfy-adapter:latest
     container_name: ntfy-adapter
     restart: unless-stopped
     environment:
@@ -51,7 +51,7 @@ docker run -d \
   -p 5000:5000 \
   -e NTFY_URL="http://<YOUR_NTFY_IP>:<PORT>" \
   -e TZ="America/Toronto" \
-  ghcr.io/your-username/ntfy-adapter:latest
+  ghcr.io/chr0nzz/ntfy-adapter:latest
 ```
 
 ---
@@ -61,7 +61,7 @@ If you want to build the image yourself instead of pulling from a registry:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/ntfy-adapter.git
+   git clone https://github.com/chr0nzz/ntfy-adapter.git
    cd ntfy-adapter
    ```
 
