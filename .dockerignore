@@ -1,0 +1,24 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+build/
+dist/
+
+# Docker
+docker-compose.yml
+Dockerfile
+
+# Metadata
+.DS_Store
+Thumbs.db
+README.md
+LICENSE
