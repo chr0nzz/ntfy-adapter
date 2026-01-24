@@ -5,8 +5,6 @@ app = Flask(__name__)
 BASE_URL = os.environ.get("NTFY_URL")
 
 def get_color(p):
-    # Mapping ntfy priority to Homepage status colors
-    # 5=red (error), 4=orange (warning), 3=blue (info)
     return {5: "error", 4: "warning", 3: "info", 2: "gray"}.get(p, "info")
 
 @app.route('/notifications')
