@@ -12,7 +12,7 @@ Add this to your `services.yaml`:
 - Notifications:
     widget:
       type: customapi
-      url: http://adapter-ip:5000/notifications?topic=YOUR_TOPIC # if not on the same network use machine IP
+      url: http://adapter-ip:5000/notifications?topic=YOUR_TOPIC
       display: dynamic-list
       mappings:
         name: time
