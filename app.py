@@ -5,7 +5,11 @@ app = Flask(__name__)
 BASE_URL = os.environ.get("NTFY_URL")
 
 def get_color(p):
-    return {5: "error", 4: "warning", 3: "info", 2: "gray"}.get(p, "info")
+    if p == 5: return "error"    # Red
+    if p == 4: return "warning"  # Orange
+    if p == 3: return "info"     # Blue
+    if p == 2: return "success"  # Green
+    return "info"
 
 @app.route('/notifications')
 def get_notifications():
