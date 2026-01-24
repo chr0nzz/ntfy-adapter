@@ -12,7 +12,7 @@ Add this to your `services.yaml`:
 - Notifications:
     widget:
       type: customapi
-      url: http://adapter-ip:5000/notifications?topic=YOUR_TOPIC # use your actual ntfy url:ip if they are not on the same network as your homepage container
+      url: http://adapter-ip:5000/notifications?topic=YOUR_TOPIC # if not on the same network use machine IP
       display: dynamic-list
       mappings:
         name: time
