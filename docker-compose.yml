@@ -1,0 +1,10 @@
+services:
+  ntfy-adapter:
+    image: ghcr.io/chr0nzz/ntfy-adapter:latest
+    container_name: ntfy-adapter
+    restart: unless-stopped
+    environment:
+      - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
+      - TZ=America/Toronto  # Change to your local timezone
+    ports:
+      - "5000:5000"
