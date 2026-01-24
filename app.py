@@ -1,48 +1,37 @@
 from flask import Flask, jsonify, request
-import requests
-import datetime
-import os
+import requests, time, os, json
 
 app = Flask(__name__)
+BASE_URL = os.environ.get("NTFY_URL")
 
-# Base URL from Compose (e.g., https://ntfy.xyzlab.dev)
-BASE_URL = os.environ.get("NTFY_URL", "https://ntfy.xyzlab.dev").rstrip('/')
+def get_color(p):
+    # Mapping ntfy priority to Homepage status colors
+    # 5=red (error), 4=orange (warning), 3=blue (info)
+    return {5: "error", 4: "warning", 3: "info", 2: "gray"}.get(p, "info")
 
 @app.route('/notifications')
 def get_notifications():
     topic = request.args.get('topic')
     if not topic:
-        return jsonify({"error": "No topic provided. Use ?topic=NAME"}), 400
-
+        return jsonify({"error": "No topic provided"}), 400
+    
+    base = BASE_URL.rstrip('/')
+    url = f"{base}/{topic}/json?poll=1&since=all"
     try:
-        # Construct the full URL for the specific topic
-        target_url = f"{BASE_URL}/{topic}/json"
-        
-        # poll=1: get history and close connection
-        # since=all: get all available cached messages
-        params = {"poll": "1", "since": "all"}
-        
-        response = requests.get(target_url, params=params, timeout=10)
-        
-        messages = []
-        for line in response.iter_lines():
-            if not line:
-                continue
-            try:
-                data = requests.json.loads(line)
+        res = requests.get(url, timeout=10)
+        msgs = []
+        for line in res.iter_lines():
+            if line:
+                data = json.loads(line.decode('utf-8'))
                 if data.get('event') == 'message':
-                    dt = datetime.datetime.fromtimestamp(data.get('time', 0))
-                    messages.append({
-                        "time": dt.strftime("%H:%M"), # Just HH:MM for cleaner look
-                        "message": data.get('message', '')
+                    l_time = time.localtime(data.get('time', 0))
+                    msgs.append({
+                        "time": time.strftime("%H:%M", l_time),
+                        "message": data.get('message', ''),
+                        "color": get_color(data.get('priority', 3))
                     })
-            except:
-                continue
-
-        # Sort newest first and take top 5
-        messages.sort(key=lambda x: x['time'], reverse=True)
-        return jsonify(messages[:5])
-
+        msgs.sort(key=lambda x: x['time'], reverse=True)
+        return jsonify(msgs[:5])
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
