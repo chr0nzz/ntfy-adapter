@@ -1,7 +1,6 @@
 # 🔔 ntfy-adapter
 
-A lightweight Python adapter that transforms **ntfy.sh** notification streams into a format perfectly compatible with the **GetHomepage.dev** dashboard `dynamic-list` widget. It automatically handles priority-based coloring and ensures timestamps match your local time.
-
+A lightweight Python adapter that transforms **ntfy.sh** notification streams into a format perfectly compatible with the **GetHomepage.dev** dashboard `dynamic-list` widget. It automatically handles priority-based of on emoji.
 ---
 
 ## ✨ Features
@@ -105,8 +104,6 @@ Add the following to your `services.yaml` file in Homepage:
       mappings:
         name: time
         label: message
-        color: color
-        state: color
 ```
 
 ---
@@ -116,6 +113,9 @@ Add the following to your `services.yaml` file in Homepage:
 | :--- | :--- | :--- |
 | `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` |
 | `TZ` | Your local timezone for timestamps | `Europe/London` |
+| `EXPIRY_MAX` | Danger Expir Hours | `48` |
+| `EXPIRY_HIGH` | Danger Expir Hours | `24` |
+| `EXPIRY_STANDARD` | Danger Expir Hours | `12` |
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
