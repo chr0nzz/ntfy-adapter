@@ -64,9 +64,9 @@ docker run -d \
 Override Notification Expiry
 ```yaml
 
-  -e EXPIRY_MAX=24 \
-  -e EXPIRY_HIGH=12 \
-  -e EXPIRY_STANDARD=12 \
+  -e EXPIRY_MAX="24" \
+  -e EXPIRY_HIGH="12" \
+  -e EXPIRY_STANDARD="12" \
 ```
 ---
 
