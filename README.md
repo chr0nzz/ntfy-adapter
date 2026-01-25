@@ -5,12 +5,16 @@ A lightweight Python adapter that transforms **ntfy.sh** notification streams in
 ---
 
 ## ✨ Features
-- **Priority-Based Colors**: Maps ntfy priorities to Homepage status colors:
-  - 🔴 **Urgent (5)** → Red (`error`)
-  - 🟠 **High (4)** → Orange (`warning`)
-  - 🔵 **Normal (3)** → Blue (`info`)
+- **Priority-Based Emoji**: Maps ntfy priorities to Homepage status colors:
+  - 🚨  **Urgent (5)** → (`danger`)
+  - ⚠️ **High (4)** → (`warning`)
+  - ✔️ **Normal (3)** → (`sucsess`)
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
+- Notifications will expire every
+  - 48 hours → (`danger`)
+  - 24 → (`warning`)
+  - 12 → (`sucsess`)
 
 ---
 
