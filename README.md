@@ -100,7 +100,8 @@ Add the following to your `services.yaml` file in Homepage:
       type: customapi
       url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC>
       display: dynamic-list
-      refreshInterval: 30000
+      refreshInterval: 5000
+      method: get
       mappings:
         name: time
         label: message
