@@ -113,9 +113,9 @@ Add the following to your `services.yaml` file in Homepage:
 | :--- | :--- | :--- |
 | `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` |
 | `TZ` | Your local timezone for timestamps | `Europe/London` |
-| `EXPIRY_MAX` | Danger Expir Hours | `48` |
-| `EXPIRY_HIGH` | Danger Expir Hours | `24` |
-| `EXPIRY_STANDARD` | Danger Expir Hours | `12` |
+| `EXPIRY_MAX` | Danger Expire Hours | `48` |
+| `EXPIRY_HIGH` | Warning Expire Hours | `24` |
+| `EXPIRY_STANDARD` | Sucsess Expire Hours | `12` |
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
