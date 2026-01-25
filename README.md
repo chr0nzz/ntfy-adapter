@@ -13,8 +13,8 @@ A lightweight Python adapter that transforms **ntfy.sh** notification streams in
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
 - Notifications will expire every
   - 48 hours → (`danger`)
-  - 24 → (`warning`)
-  - 12 → (`sucsess`)
+  - 24 hours → (`warning`)
+  - 12 hours → (`sucsess`)
 
 ---
 
@@ -38,6 +38,10 @@ services:
     environment:
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto  # Change to your local timezone
+      ### Optional: Override Notification Expiry ###
+      # - EXPIRY_MAX=24 #Default is 48 hours
+      # - EXPIRY_HIGH=12 #Default is 24 hours
+      # - EXPIRY_STANDARD=6 #Default is 12 hours
     ports:
       - "5000:5000"
 ```
@@ -57,7 +61,13 @@ docker run -d \
   -e TZ="America/Toronto" \
   ghcr.io/chr0nzz/ntfy-adapter:latest
 ```
+Override Notification Expiry
+```yaml
 
+  -e EXPIRY_MAX=24 \
+  -e EXPIRY_HIGH=12 \
+  -e EXPIRY_STANDARD=12 \
+```
 ---
 
 ## 🛠 Build from Source
