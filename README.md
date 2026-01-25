@@ -62,7 +62,7 @@ docker run -d \
   ghcr.io/chr0nzz/ntfy-adapter:latest
 ```
 Override Notification Expiry
-```yaml
+```bash
 
   -e EXPIRY_MAX="24" \
   -e EXPIRY_HIGH="12" \
