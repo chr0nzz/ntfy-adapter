@@ -7,8 +7,8 @@ services:
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto  # Change to your local timezone
       # Optional: Override Notification Expiry
-      - EXPIRY_MAX=1 #Default is 48 hours
-      - EXPIRY_HIGH=1 #Default is 24 hours
-      - EXPIRY_STANDARD=1 #Default is 12 hours
+      # - EXPIRY_MAX=1 #Default is 48 hours
+      # - EXPIRY_HIGH=1 #Default is 24 hours
+      # - EXPIRY_STANDARD=1 #Default is 12 hours
     ports:
       - "5000:5000"
