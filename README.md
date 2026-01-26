@@ -50,7 +50,7 @@ services:
     container_name: ntfy-adapter
     restart: unless-stopped
     environment:
-      - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
+      - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>  # change to your NTFY ip:port or domain:port
       - TZ=America/Toronto  # Change to your local timezone
       ### Optional: Override Notification Expiry ###
       # - EXPIRY_MAX=24 #Default is 48 hours
@@ -118,7 +118,7 @@ You can add one widget per ntfy topic.
 - Notifications:
     widget:
       type: customapi
-      url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC>
+      url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC> # change to your adapter ip and NTFY topic
       display: dynamic-list
       refreshInterval: 5000
       method: get
