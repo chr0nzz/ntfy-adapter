@@ -27,7 +27,7 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 ### 🚀 Installation & Setup
 
 ### 1. Prerequisites
-- A running **ntfy** instance (e.g., `http://192.168.1.50:8080`).
+- A running **ntfy** instance (e.g., `http://192.168.1.50:8080` or `https://ntfy.domain.ltd`).
 - Update your **ntfy** Docker Compose file to enable caching:
 ```yaml
     environment:
@@ -135,7 +135,7 @@ You can add one widget per ntfy topic.
 ## ⚙️ Environment Variables
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` |
+| `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` or `https://ntfy.domain.ltd` |
 | `TZ` | Your local timezone for timestamps | `America/Toronto` |
 | `EXPIRY_MAX` | Expiry time (hours) for Urgent notifications | `24` |
 | `EXPIRY_HIGH` | Expiry time (hours) for High notifications | `12` |
