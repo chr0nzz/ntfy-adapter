@@ -4,7 +4,7 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 ---
 
 ## ✨ Features
-- **Priority-Based Emoji**: Maps ntfy priorities to Homepage status colors:
+- **Priority-Based Emoji**: Maps ntfy priorities:
   - 🚨  **Urgent (5)** → (`danger`)
   - ⚠️ **High (4)** → (`warning`)
   - ✔️ **Normal (3)** → (`success`)
