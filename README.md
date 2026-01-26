@@ -7,13 +7,13 @@ A lightweight Python adapter that transforms **ntfy.sh** notification streams in
 - **Priority-Based Emoji**: Maps ntfy priorities to Homepage status colors:
   - 🚨  **Urgent (5)** → (`danger`)
   - ⚠️ **High (4)** → (`warning`)
-  - ✔️ **Normal (3)** → (`sucsess`)
+  - ✔️ **Normal (3)** → (`success`)
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
 - **Notifications will expire every**:
   - 48 hours → (`danger`) | Urgent
   - 24 hours → (`warning`) | High
-  - 12 hours → (`sucsess`) | Normal
+  - 12 hours → (`success`) | Normal
 
 ---
 
@@ -21,10 +21,9 @@ A lightweight Python adapter that transforms **ntfy.sh** notification streams in
 
 ### 1. Prerequisites
 - A running **ntfy** instance (e.g., `http://192.168.1.50:8080`).
-- update NTFY compose file to include .
+- Update your **ntfy** Docker Compose file to enable caching:
 ```yaml
     environment:
-      - TZ=America/Toronto
       - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
       - NTFY_CACHE_DURATION=48h
     volumes:
@@ -69,13 +68,17 @@ docker run -d \
   -e TZ="America/Toronto" \
   ghcr.io/chr0nzz/ntfy-adapter:latest
 ```
-Override Notification Expiry
+Override notification expiry:
 ```bash
-
+docker run -d \
+  --name ntfy-adapter \
+  -p 5000:5000 \
+  -e NTFY_URL="http://<YOUR_NTFY_IP>:<PORT>" \
+  -e TZ="America/Toronto" \
   -e EXPIRY_MAX="24" \
   -e EXPIRY_HIGH="12" \
-  -e EXPIRY_STANDARD="12" \
-```
+  -e EXPIRY_STANDARD="6" \
+  ghcr.io/chr0nzz/ntfy-adapter:latest
 ---
 
 ## 🛠 Build from Source
@@ -99,8 +102,9 @@ If you want to build the image yourself instead of pulling from a registry:
 
 ---
 
-## 🏠 Homepage Configuration
+## 🏠 Homepage Widget Configuration
 Add the following to your `services.yaml` file in Homepage:
+You can add one widget per ntfy topic.
 
 ```yaml
 - Notifications:
@@ -122,9 +126,9 @@ Add the following to your `services.yaml` file in Homepage:
 | :--- | :--- | :--- |
 | `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` |
 | `TZ` | Your local timezone for timestamps | `Europe/London` |
-| `EXPIRY_MAX` | Danger Expire Hours | `48` |
-| `EXPIRY_HIGH` | Warning Expire Hours | `24` |
-| `EXPIRY_STANDARD` | Sucsess Expire Hours | `12` |
+| `EXPIRY_MAX` | Expiry time (hours) for Urgent notifications | `48` |
+| `EXPIRY_HIGH` | Expiry time (hours) for High notifications | `24` |
+| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `12` |
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
