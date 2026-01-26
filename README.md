@@ -10,10 +10,10 @@ A lightweight Python adapter that transforms **ntfy.sh** notification streams in
   - ✔️ **Normal (3)** → (`sucsess`)
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
-- Notifications will expire every
-  - 48 hours → (`danger`)
-  - 24 hours → (`warning`)
-  - 12 hours → (`sucsess`)
+- **Notifications will expire every**:
+  - 48 hours → (`danger`) | Urgent
+  - 24 hours → (`warning`) | High
+  - 12 hours → (`sucsess`) | Normal
 
 ---
 
