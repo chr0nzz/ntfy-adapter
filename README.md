@@ -86,6 +86,7 @@ docker run -d \
   -e EXPIRY_HIGH="12" \
   -e EXPIRY_STANDARD="6" \
   ghcr.io/chr0nzz/ntfy-adapter:latest
+```
 ---
 
 ## 🛠 Build from Source
