@@ -8,7 +8,6 @@ import time
 app = Flask(__name__)
 BASE_URL = os.environ.get("NTFY_URL")
 
-# Preserving your specific expiry logic from docker-compose
 EXPIRY_MAX = int(os.environ.get("EXPIRY_MAX", 48))
 EXPIRY_HIGH = int(os.environ.get("EXPIRY_HIGH", 24))
 EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
@@ -16,7 +15,7 @@ EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
 @app.route('/notifications')
 def get_notifications():
     if not BASE_URL:
-        return jsonify([]) # Return list to satisfy Homepage f.map
+        return jsonify([]) 
     topic = request.args.get('topic')
     if not topic:
         return jsonify([])
@@ -24,7 +23,6 @@ def get_notifications():
     target_url = f"{BASE_URL.rstrip('/')}/{topic}/json"
     
     try:
-        # Requesting last 48h from ntfy
         params = {"poll": "1", "since": "48h"}
         response = requests.get(target_url, params=params, timeout=10)
         
