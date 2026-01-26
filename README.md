@@ -135,10 +135,10 @@ You can add one widget per ntfy topic.
 | Variable | Description | Example |
 | :--- | :--- | :--- |
 | `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` |
-| `TZ` | Your local timezone for timestamps | `Europe/London` |
-| `EXPIRY_MAX` | Expiry time (hours) for Urgent notifications | `48` |
-| `EXPIRY_HIGH` | Expiry time (hours) for High notifications | `24` |
-| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `12` |
+| `TZ` | Your local timezone for timestamps | `America/Toronto` |
+| `EXPIRY_MAX` | Expiry time (hours) for Urgent notifications | `24` |
+| `EXPIRY_HIGH` | Expiry time (hours) for High notifications | `12` |
+| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `6` |
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
