@@ -118,6 +118,8 @@ You can add one widget per ntfy topic.
 
 ```yaml
 - Notifications:
+    # href: https://ntfy.domain.com/topic
+    # icon: sh-ntfy
     widget:
       type: customapi
       # change to your adapter ip and NTFY topic #
