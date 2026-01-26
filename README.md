@@ -15,9 +15,16 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
   - 24 hours → (`warning`) | High
   - 12 hours → (`success`) | Normal
 
+## 🖼️ Example of the Homepage widget in both dark and light modes.
+
+<p align="center">
+  <img src="images/dark.png" alt="Dark mode screenshot" width="45%">
+  <img src="images/light.png" alt="Light mode screenshot" width="45%">
+</p>
+
 ---
 
-## 🚀 Installation & Setup
+### 🚀 Installation & Setup
 
 ### 1. Prerequisites
 - A running **ntfy** instance (e.g., `http://192.168.1.50:8080`).
@@ -31,9 +38,9 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 ```
 - **Docker** and **Docker Compose** installed.
 
-### 2. Deployment Methods
+#### 2. Deployment Methods
 
-#### Option A: Docker Compose (Recommended)
+##### Option A: Docker Compose (Recommended)
 Create a `docker-compose.yml` file:
 
 ```yaml
@@ -58,7 +65,7 @@ Run the command:
 docker compose up -d
 ```
 
-#### Option B: Docker Run
+##### Option B: Docker Run
 Run the container with a single command:
 ```bash
 docker run -d \
