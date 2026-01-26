@@ -120,7 +120,8 @@ You can add one widget per ntfy topic.
 - Notifications:
     widget:
       type: customapi
-      url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC> # change to your adapter ip and NTFY topic
+      # change to your adapter ip and NTFY topic #
+      url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC>
       display: dynamic-list
       refreshInterval: 5000
       method: get
