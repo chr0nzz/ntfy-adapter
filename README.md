@@ -52,8 +52,9 @@ services:
     environment:
       # Change to your NTFY ip:port or domain:port #
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>  
-      - TZ=America/Toronto  # Change to your local timezone
-      ## Optional: Override Notification Expiry ##
+      ## Change to your local timezone ##
+      - TZ=America/Toronto  
+      ### Optional: Override Notification Expiry ###
       # - EXPIRY_MAX=24 #Default is 48 hours
       # - EXPIRY_HIGH=12 #Default is 24 hours
       # - EXPIRY_STANDARD=6 #Default is 12 hours
