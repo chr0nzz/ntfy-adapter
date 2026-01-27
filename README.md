@@ -28,6 +28,7 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 
 ### 1. Prerequisites
 - A running **ntfy** instance (e.g., `http://192.168.1.50:8080` or `https://ntfy.domain.com`).
+- A running Homepage instance (`https://gethomepage.dev`)
 - Update your **ntfy** Docker Compose file to enable caching:
 ```yaml
     environment:
