@@ -1,3 +1,4 @@
+import re
 from flask import Flask, jsonify, request
 import requests
 import datetime
@@ -10,6 +11,10 @@ BASE_URL = os.environ.get("NTFY_URL")
 EXPIRY_MAX = int(os.environ.get("EXPIRY_MAX", 48))
 EXPIRY_HIGH = int(os.environ.get("EXPIRY_HIGH", 24))
 EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
+
+def redact_url(text):
+    url_pattern = r'https?://\S+'
+    return re.sub(url_pattern, '[URL]', text)
 
 @app.route('/notifications')
 def get_notifications():
@@ -48,10 +53,15 @@ def get_notifications():
                         
                         if raw_ts > (now - (limit_hrs * 3600)):
                             dt = datetime.datetime.fromtimestamp(raw_ts)
+                            
+                            clean_msg = redact_url(data.get('message', ''))
+                            if len(clean_msg) > 65:
+                                clean_msg = clean_msg[:62] + "..."
+
                             messages.append({
                                 "id": raw_ts, 
                                 "time": dt.strftime("%H:%M"),
-                                "message": f"{prefix}{data.get('message', '')}"
+                                "message": f"{prefix}{clean_msg}"
                             })
                 except:
                     continue
@@ -59,7 +69,7 @@ def get_notifications():
         messages.sort(key=lambda x: x['id'], reverse=True)
         return jsonify(messages[:5])
     except Exception as e:
-        print(f"Error fetching notifications: {e}")
+        print(f"Error: {e}")
         return jsonify([])
 
 if __name__ == '__main__':
