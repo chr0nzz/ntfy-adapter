@@ -24,7 +24,7 @@ def get_notifications():
     
     try:
         params = {"poll": "1", "since": "48h"}
-        response = requests.get(target_url, params=params, timeout=10)
+        response = requests.get(target_url, params=params, timeout=15)
         
         messages = []
         now = time.time()
@@ -60,7 +60,8 @@ def get_notifications():
         messages.sort(key=lambda x: x['id'], reverse=True)
         return jsonify(messages[:5])
     except Exception as e:
+        print(f"Error fetching notifications: {e}")
         return jsonify([])
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, threaded=True)
