@@ -7,7 +7,6 @@ import time
 
 app = Flask(__name__)
 BASE_URL = os.environ.get("NTFY_URL")
-
 EXPIRY_MAX = int(os.environ.get("EXPIRY_MAX", 48))
 EXPIRY_HIGH = int(os.environ.get("EXPIRY_HIGH", 24))
 EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
