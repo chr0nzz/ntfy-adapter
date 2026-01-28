@@ -79,7 +79,7 @@ services:
       # Use **U prefix for Unicode or *short_code* for emojis
       - EMOJI_MAX=**U0001F6A8
       - EMOJI_HIGH=*warning*
-      - EMOJI_STANDARD=*white_check_mark*
+      - EMOJI_STANDARD=*check_mark*
 ```
 
 Run the command:
