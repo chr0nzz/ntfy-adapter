@@ -168,6 +168,7 @@ You can add one widget per ntfy topic.
 | :------------------ | :------------------------------------------- | :------------------------------------------------------ |
 | `NTFY_URL`          | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
 | `TZ`                | Your local timezone for timestamps           | `America/Toronto`                                       |
+| `CLOCK_FORMAT`      | Set time format                              | `24h` or `12h`                                          |
 | `MAX_NOTIFICATIONS` | Returns the max number of notifications      | `5`                                                     |
 | `EXPIRY_MAX`        | Expiry time (hours) for Urgent notifications | `24`                                                    |
 | `EXPIRY_HIGH`       | Expiry time (hours) for High notifications   | `12`                                                    |
