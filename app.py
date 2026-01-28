@@ -45,6 +45,13 @@ EMOJI_MAX = decode_emoji(os.environ.get("EMOJI_MAX", "🚨"))
 EMOJI_HIGH = decode_emoji(os.environ.get("EMOJI_HIGH", "⚠️"))
 EMOJI_STANDARD = decode_emoji(os.environ.get("EMOJI_STANDARD", "✔️"))
 
+CLOCK_MODE = os.environ.get("CLOCK_FORMAT", "24h").lower()
+
+if CLOCK_MODE == "12h":
+    TIME_STRFTIME = "%I:%M %p"
+else:
+    TIME_STRFTIME = "%H:%M"
+
 app = Flask("ntfy_adapter")
 
 @app.route("/health")
@@ -54,6 +61,7 @@ def health_check():
 logger.info("ntfy-adapter starting...")
 logger.info(f"NTFY_URL={BASE_URL}")
 logger.info(f"MAX_NOTIFICATIONS={MAX_NOTIFICATIONS}")
+logger.info(f"CLOCK_MODE={CLOCK_MODE}")
 logger.info(f"EXPIRY_MAX={EXPIRY_MAX}, EXPIRY_HIGH={EXPIRY_HIGH}, EXPIRY_STANDARD={EXPIRY_STANDARD}")
 logger.info(f"EMOJI_MAX={EMOJI_MAX}, EMOJI_HIGH={EMOJI_HIGH}, EMOJI_STANDARD={EMOJI_STANDARD}")
 
@@ -105,7 +113,7 @@ def get_notifications():
 
                             messages.append({
                                 "id": raw_ts,
-                                "time": dt.strftime("%I:%M %p"),
+                                "time": dt.strftime(TIME_STRFTIME),
                                 "message": f"{prefix}  {clean_msg}"
                             })
                 except Exception:
