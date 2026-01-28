@@ -42,9 +42,13 @@ def decode_emoji(s):
 
 EMOJI_MAX = decode_emoji(os.environ.get("EMOJI_MAX", "🚨"))
 EMOJI_HIGH = decode_emoji(os.environ.get("EMOJI_HIGH", "⚠️"))
-EMOJI_STANDARD = decode_emoji(os.environ.get("EMOJI_STANDARD", "✅️"))
+EMOJI_STANDARD = decode_emoji(os.environ.get("EMOJI_STANDARD", "✔️"))
 
 app = Flask("ntfy_adapter")
+
+@app.route("/health")
+def health_check():
+    return jsonify({"status": "healthy"}), 200
 
 logger.info("ntfy-adapter starting...")
 logger.info(f"NTFY_URL={BASE_URL}")
@@ -112,4 +116,7 @@ def get_notifications():
         return jsonify([])
 
 if __name__ == "__main__":
+    logger.info("🚀 ntfy-adapter: Server starting...")
     app.run(host="0.0.0.0", port=5000, threaded=True)
+else:
+    logger.info("✅ ntfy-adapter: Server is UP and Ready to receive requests")
