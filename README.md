@@ -14,7 +14,7 @@ ntfy-adapter is a widget for the Homepage dashboard that displays your latest NT
   - **Emoji Short Code** (e.g. `*warning*`)
 
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
-- **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
+- **Efficient Filtering**: Automatically provides the last 5 notifications or set the number.
 - **Expiry based on priority**:
   - Urgent → expires after `EXPIRY_MAX` 48 Hours
   - High → expires after `EXPIRY_HIGH` 24 Hours
@@ -58,22 +58,28 @@ services:
     image: ghcr.io/chr0nzz/ntfy-adapter:latest
     container_name: ntfy-adapter
     restart: unless-stopped
-    environment:
-      # Change to your NTFY ip:port or domain:port #
-      - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>  
-      ## Change to your local timezone ##
-      - TZ=America/Toronto  
-      ### Optional: Override Notification Expiry ###
-      # - EXPIRY_MAX=24 #Default is 48 hours
-      # - EXPIRY_HIGH=12 #Default is 24 hours
-      # - EXPIRY_STANDARD=6 #Default is 12 hours
-      #### Optional: Override Emoji ####
-      # **unicode or *short_code* (https://openmoji.org/)
-      # - EMOJI_MAX=**U0001F6A8
-      # - EMOJI_HIGH=*yellow_circle*
-      # - EMOJI_STANDARD=*green_circle*
     ports:
       - "5000:5000"
+    environment:
+      # --- Connection Settings ---
+      - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
+      - TZ=America/Toronto
+
+      # --- Notification Limits ---
+      # Max number of messages returned in the list (Default: 5)
+      - MAX_NOTIFICATIONS=5
+
+      # --- Expiry Settings (Hours) ---
+      # How long messages stay visible based on priority
+      - EXPIRY_MAX=48        # Priority 5
+      - EXPIRY_HIGH=24       # Priority 4
+      - EXPIRY_STANDARD=12   # Priority 1-3
+
+      # --- Visual Customization ---
+      # Use **U prefix for Unicode or *short_code* for emojis
+      - EMOJI_MAX=**U0001F6A8
+      - EMOJI_HIGH=*warning*
+      - EMOJI_STANDARD=*white_check_mark*
 ```
 
 Run the command:
