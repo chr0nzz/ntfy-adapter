@@ -67,7 +67,7 @@ logger.info(f"EMOJI_MAX={EMOJI_MAX}, EMOJI_HIGH={EMOJI_HIGH}, EMOJI_STANDARD={EM
 
 def redact_url(text):
     url_pattern = r'https?://\S+'
-    return re.sub(url_pattern, "[URL]", text)
+    return re.sub(url_pattern, "🔗", text)
 
 @app.route("/notifications")
 def get_notifications():
@@ -78,6 +78,7 @@ def get_notifications():
         return jsonify([])
 
     target_url = f"{BASE_URL.rstrip('/')}/{topic}/json"
+    url_pattern = r'(https?://[^\s,]+)'
 
     try:
         params = {"poll": "1", "since": "48h"}
@@ -93,6 +94,7 @@ def get_notifications():
                     if data.get("event") == "message":
                         priority = data.get("priority", 3)
                         raw_ts = data.get("time", 0)
+                        raw_msg = data.get("message", "")
 
                         if priority >= 5:
                             limit_hrs = EXPIRY_MAX
@@ -107,14 +109,16 @@ def get_notifications():
                         if raw_ts > (now - (limit_hrs * 3600)):
                             dt = datetime.datetime.fromtimestamp(raw_ts)
 
-                            clean_msg = redact_url(data.get("message", ""))
-                            if len(clean_msg) > 65:
-                                clean_msg = clean_msg[:62] + "..."
+                            found_urls = re.findall(url_pattern, raw_msg)
+                            actual_url = found_urls[0] if found_urls else ""
+
+                            clean_msg = redact_url(raw_msg)
 
                             messages.append({
                                 "id": raw_ts,
                                 "time": dt.strftime(TIME_STRFTIME),
-                                "message": f"{prefix}  {clean_msg}"
+                                "message": f"{prefix}  {clean_msg}",
+                                "click_url": actual_url
                             })
                 except Exception:
                     continue
