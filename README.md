@@ -1,6 +1,6 @@
 # 🔔 ntfy-adapter
 ---
-A lightweight Python adapter that transforms ntfy.sh notification streams into a format compatible with the GetHomepage.dev dashboard dynamic-list customapi widget. It exposes a simple HTTP API that returns the last 5 notifications, with automatic priority-based formatting.
+NTFY Adapter is a widget for the Homepage dashboard that displays your latest NTFY notifications. It exposes a simple HTTP API returning the last five notifications with automatic priority-based formatting.
 ---
 
 ## ✨ Features
