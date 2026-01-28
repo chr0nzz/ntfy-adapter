@@ -42,7 +42,7 @@ def decode_emoji(s):
 
 EMOJI_MAX = decode_emoji(os.environ.get("EMOJI_MAX", "🚨"))
 EMOJI_HIGH = decode_emoji(os.environ.get("EMOJI_HIGH", "⚠️"))
-EMOJI_STANDARD = decode_emoji(os.environ.get("EMOJI_STANDARD", "✔️"))
+EMOJI_STANDARD = decode_emoji(os.environ.get("EMOJI_STANDARD", "✅️"))
 
 app = Flask("ntfy_adapter")
 
