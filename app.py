@@ -104,7 +104,7 @@ def get_notifications():
                             messages.append({
                                 "id": raw_ts,
                                 "time": dt.strftime("%I:%M %p"),
-                                "message": f"{prefix}{clean_msg}"
+                                "message": f"{prefix}  {clean_msg}"
                             })
                 except Exception:
                     continue
@@ -116,7 +116,7 @@ def get_notifications():
         return jsonify([])
 
 if __name__ == "__main__":
-    logger.info("🚀 ntfy-adapter: Server starting...")
+    logger.info("🚀 ntfy-adapter: Development server starting...")
     app.run(host="0.0.0.0", port=5000, threaded=True)
 else:
     logger.info("✅ ntfy-adapter: Server is UP and Ready to receive requests")
