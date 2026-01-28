@@ -5,15 +5,22 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 
 ## ✨ Features
 - **Priority-Based Emoji**: Maps ntfy priorities:
-  - 🚨  **Urgent (5)** → (`danger`)
-  - ⚠️ **High (4)** → (`warning`)
-  - ✔️ **Normal (3)** → (`success`)
+  - 🚨  **Urgent (5+)**
+  - ⚠️ **High (4)**
+  - ✔️ **Normal (3)**
+
+- **Supports multiple emoji formats**
+  - **Unicode** (e.g. `**U0001F6A8`)
+  - **Emoji Short Code** (e.g. `*warning*`)
+
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
-- **Notifications will expire every**:
-  - 48 hours → (`danger`) | Urgent
-  - 24 hours → (`warning`) | High
-  - 12 hours → (`success`) | Normal
+- **Expiry based on priority**:
+  - Urgent → expires after `EXPIRY_MAX`
+  - High → expires after `EXPIRY_HIGH`
+  - Normal → expires after `EXPIRY_STANDARD`
+
+---
 
 ## 🖼️ Example of the Homepage widget in both dark and light modes.
 
@@ -24,18 +31,19 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 
 ---
 
-### 🚀 Installation & Setup
+# 🚀 Installation & Setup
 
-### 1. Prerequisites
-- A running **ntfy** instance (e.g., `http://192.168.1.50:8080` or `https://ntfy.domain.com`).
+## 1. Prerequisites
+- A running **ntfy** instance (e.g., `http://192.168.1.50:8080` or `https://ntfy.domain.com`)
 - A running Homepage instance (`https://gethomepage.dev`)
 - Update your **ntfy** Docker Compose file to enable caching:
+
 ```yaml
-    environment:
-      - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
-      - NTFY_CACHE_DURATION=48h
-    volumes:
-      - /path-to/ntfy/var/cache/ntfy:/var/cache/ntfy
+environment:
+  - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
+  - NTFY_CACHE_DURATION=48h
+volumes:
+  - /path-to/ntfy/var/cache/ntfy:/var/cache/ntfy
 ```
 - **Docker** and **Docker Compose** installed.
 
@@ -59,6 +67,11 @@ services:
       # - EXPIRY_MAX=24 #Default is 48 hours
       # - EXPIRY_HIGH=12 #Default is 24 hours
       # - EXPIRY_STANDARD=6 #Default is 12 hours
+      #### Optional: Override Emoji ####
+      # **nuicode or *short_code* (https://openmoji.org/)
+      # - EMOJI_MAX=*red_circle*
+      # - EMOJI_HIGH=*yellow_circle*
+      # - EMOJI_STANDARD=*green_circle*
     ports:
       - "5000:5000"
 ```
@@ -136,13 +149,18 @@ You can add one widget per ntfy topic.
 ---
 
 ## ⚙️ Environment Variables
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `NTFY_URL` | The URL of your ntfy server | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
-| `TZ` | Your local timezone for timestamps | `America/Toronto` |
-| `EXPIRY_MAX` | Expiry time (hours) for Urgent notifications | `24` |
-| `EXPIRY_HIGH` | Expiry time (hours) for High notifications | `12` |
-| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `6` |
+
+| Variable          | Description                                  | Example                                                 |
+| :---------------- | :------------------------------------------- | :------------------------------------------------------ |
+| `NTFY_URL`        | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
+| `TZ`              | Your local timezone for timestamps           | `America/Toronto`                                       |
+| `EXPIRY_MAX`      | Expiry time (hours) for Urgent notifications | `24`                                                    |
+| `EXPIRY_HIGH`     | Expiry time (hours) for High notifications   | `12`                                                    |
+| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `6`                                                     |
+| `EMOJI_MAX`       | Emoji for urgent notifications               | `**U0001F6A8` or `*rotating_light*`                     |
+| `EMOJI_HIGH`      | Emoji for high notifications                 | `*warning*`                                             |
+| `EMOJI_STANDARD`  | Emoji for normal notifications               | `*white_check_mark*`                                    |
+
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
