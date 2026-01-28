@@ -7,7 +7,7 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 - **Priority-Based Emoji**: Maps ntfy priorities:
   - 🚨  **Urgent (5+)**
   - ⚠️ **High (4)**
-  - ✅️ **Normal (3)**
+  - ✔️ **Normal (3)**
 
 - **Supports multiple emoji formats**
   - **Unicode** (e.g. `**U0001F6A8`)
