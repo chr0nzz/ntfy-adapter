@@ -9,6 +9,7 @@ services:
       # --- Connection Settings ---
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto
+      - CLOCK_FORMAT=24h     # Set time format 12h or 24h
 
       # --- Notification Limits ---
       # Max number of messages returned in the list (Default: 5)
