@@ -15,6 +15,7 @@ BASE_URL = os.environ.get("NTFY_URL")
 EXPIRY_MAX = int(os.environ.get("EXPIRY_MAX", 48))
 EXPIRY_HIGH = int(os.environ.get("EXPIRY_HIGH", 24))
 EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
+MAX_NOTIFICATIONS = int(os.environ.get("MAX_NOTIFICATIONS", 5))
 
 def decode_unicode(s):
     if not s:
@@ -110,7 +111,7 @@ def get_notifications():
                     continue
 
         messages.sort(key=lambda x: x["id"], reverse=True)
-        return jsonify(messages[:5])
+        return jsonify(messages[:MAX_NOTIFICATIONS])
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify([])
