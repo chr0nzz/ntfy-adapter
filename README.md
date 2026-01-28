@@ -14,7 +14,7 @@ ntfy-adapter is a customizable widget for the Homepage dashboard that displays y
     * **Shortcodes**: Wrap in asterisks (e.g., `*warning*`).
 * **Smart Timezone Handling**: Localized timestamps via the `TZ` environment variable.
 * **Customizable History**: Returns the last **5** notifications by default (configurable via `MAX_NOTIFICATIONS`).
-* **URL Redaction**: Automatically replaces long URLs with `[URL]` to keep your feed clean.
+* **URL Redaction**: Automatically replaces long URLs with `🔗` to keep your feed clean.
 
 ---
 
@@ -158,6 +158,7 @@ You can add one widget per ntfy topic.
       mappings:
         label: time
         name: message
+        target: "{click_url}"
 ```
 
 ---
