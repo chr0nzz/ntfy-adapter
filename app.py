@@ -53,6 +53,7 @@ def health_check():
 
 logger.info("ntfy-adapter starting...")
 logger.info(f"NTFY_URL={BASE_URL}")
+logger.info(f"MAX_NOTIFICATIONS={MAX_NOTIFICATIONS}")
 logger.info(f"EXPIRY_MAX={EXPIRY_MAX}, EXPIRY_HIGH={EXPIRY_HIGH}, EXPIRY_STANDARD={EXPIRY_STANDARD}")
 logger.info(f"EMOJI_MAX={EMOJI_MAX}, EMOJI_HIGH={EMOJI_HIGH}, EMOJI_STANDARD={EMOJI_STANDARD}")
 
