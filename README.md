@@ -142,8 +142,8 @@ You can add one widget per ntfy topic.
       refreshInterval: 5000
       method: get
       mappings:
-        name: time
-        label: message
+        label: time
+        name: message
 ```
 
 ---
