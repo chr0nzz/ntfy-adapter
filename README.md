@@ -4,21 +4,17 @@ ntfy-adapter is a widget for the Homepage dashboard that displays your latest NT
 ---
 
 ## ✨ Features
-- **Priority-Based Emoji**: Maps ntfy priorities:
-  - 🚨  **Urgent (5+)**
-  - ⚠️ **High (4)**
-  - ✔️ **Normal (3)**
 
-- **Supports multiple emoji formats**
-  - **Unicode** (e.g. `**U0001F6A8`)
-  - **Emoji Short Code** (e.g. `*warning*`)
-
-- **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
-- **Efficient Filtering**: Automatically provides the last 5 notifications or set the number.
-- **Expiry based on priority**:
-  - Urgent → expires after `EXPIRY_MAX` 48 Hours
-  - High → expires after `EXPIRY_HIGH` 24 Hours
-  - Normal → expires after `EXPIRY_STANDARD` 12 Hours
+* **Priority-Based Status**: Automatically prefixes messages based on ntfy priority:
+    * 🚨 **Urgent (5+)**: High-visibility alerts.
+    * ⚠️ **High (4)**: Warning-level alerts.
+    * ✔️ **Normal (1–3)**: Standard notifications.
+* **Flexible Emoji Formatting**: 
+    * **Unicode**: Use the `**U` prefix (e.g., `**U0001F6A8`).
+    * **Shortcodes**: Wrap in asterisks (e.g., `*warning*`).
+* **Smart Timezone Handling**: Localized timestamps via the `TZ` environment variable.
+* **Customizable History**: Returns the last **5** notifications by default (configurable via `MAX_NOTIFICATIONS`).
+* **URL Redaction**: Automatically replaces long URLs with `[URL]` to keep your feed clean.
 
 ---
 
@@ -156,16 +152,17 @@ You can add one widget per ntfy topic.
 
 ## ⚙️ Environment Variables
 
-| Variable          | Description                                  | Example                                                 |
-| :---------------- | :------------------------------------------- | :------------------------------------------------------ |
-| `NTFY_URL`        | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
-| `TZ`              | Your local timezone for timestamps           | `America/Toronto`                                       |
-| `EXPIRY_MAX`      | Expiry time (hours) for Urgent notifications | `24`                                                    |
-| `EXPIRY_HIGH`     | Expiry time (hours) for High notifications   | `12`                                                    |
-| `EXPIRY_STANDARD` | Expiry time (hours) for Normal notifications | `6`                                                     |
-| `EMOJI_MAX`       | Emoji for urgent notifications               | `**U0001F6A8` or `*rotating_light*`                     |
-| `EMOJI_HIGH`      | Emoji for high notifications                 | `*warning*`                                             |
-| `EMOJI_STANDARD`  | Emoji for normal notifications               | `*white_check_mark*`                                    |
+| Variable            | Description                                  | Example                                                 |
+| :------------------ | :------------------------------------------- | :------------------------------------------------------ |
+| `NTFY_URL`          | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
+| `TZ`                | Your local timezone for timestamps           | `America/Toronto`                                       |
+| `MAX_NOTIFICATIONS` | Returns the max number of notifications      | `5`                                                     |
+| `EXPIRY_MAX`        | Expiry time (hours) for Urgent notifications | `24`                                                    |
+| `EXPIRY_HIGH`       | Expiry time (hours) for High notifications   | `12`                                                    |
+| `EXPIRY_STANDARD`   | Expiry time (hours) for Normal notifications | `6`                                                     |
+| `EMOJI_MAX`         | Emoji for urgent notifications               | `**U0001F6A8` or `*rotating_light*`                     |
+| `EMOJI_HIGH`        | Emoji for high notifications                 | `*warning*`                                             |
+| `EMOJI_STANDARD`    | Emoji for normal notifications               | `*white_check_mark*`                                    |
 
 
 ## 🤝 Contributing
