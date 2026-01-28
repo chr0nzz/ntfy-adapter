@@ -68,8 +68,8 @@ services:
       # - EXPIRY_HIGH=12 #Default is 24 hours
       # - EXPIRY_STANDARD=6 #Default is 12 hours
       #### Optional: Override Emoji ####
-      # **nuicode or *short_code* (https://openmoji.org/)
-      # - EMOJI_MAX=*red_circle*
+      # **uicode or *short_code* (https://openmoji.org/)
+      # - EMOJI_MAX=**U0001F6A8
       # - EMOJI_HIGH=*yellow_circle*
       # - EMOJI_STANDARD=*green_circle*
     ports:
