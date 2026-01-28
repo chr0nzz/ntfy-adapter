@@ -16,9 +16,9 @@ A lightweight Python adapter that transforms ntfy.sh notification streams into a
 - **Timezone Support**: Displays notification times using your local clock via the `TZ` environment variable.
 - **Efficient Filtering**: Automatically provides the last 5 notifications to keep your dashboard clean.
 - **Expiry based on priority**:
-  - Urgent → expires after `EXPIRY_MAX`
-  - High → expires after `EXPIRY_HIGH`
-  - Normal → expires after `EXPIRY_STANDARD`
+  - Urgent → expires after `EXPIRY_MAX` 48 Hours
+  - High → expires after `EXPIRY_HIGH` 24 Hours
+  - Normal → expires after `EXPIRY_STANDARD` 12 Hours
 
 ---
 
