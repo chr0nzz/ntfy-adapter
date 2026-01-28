@@ -18,6 +18,17 @@ ntfy-adapter is a widget for the Homepage dashboard that displays your latest NT
 
 ---
 
+## 🕒 Retention Policy
+
+Notifications are filtered based on their age and priority level:
+
+| Priority | Level  | Default Expiry | Env Variable      |
+| :------- | :----- | :------------- | :---------------- |
+| **5+** | Urgent | **48 Hours** | `EXPIRY_MAX`      |
+| **4** | High   | **24 Hours** | `EXPIRY_HIGH`     |
+| **1-3** | Normal | **12 Hours** | `EXPIRY_STANDARD` |
+
+---
 ## 🖼️ Example of the Homepage widget in both dark and light modes.
 
 <p align="center">
@@ -60,6 +71,7 @@ services:
       # --- Connection Settings ---
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto
+      - CLOCK_FORMAT=24h     # Set time format 12h or 24h
 
       # --- Notification Limits ---
       # Max number of messages returned in the list (Default: 5)
