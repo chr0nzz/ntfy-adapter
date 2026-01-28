@@ -12,6 +12,7 @@ env/
 venv/
 build/
 dist/
+images/
 
 # Docker
 docker-compose.yml
