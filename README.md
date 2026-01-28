@@ -1,6 +1,6 @@
 # 🔔 ntfy-adapter
 ---
-NTFY Adapter is a widget for the Homepage dashboard that displays your latest NTFY notifications. It exposes a simple HTTP API returning the last five notifications with automatic priority-based formatting.
+ntfy-adapter is a widget for the Homepage dashboard that displays your latest NTFY notifications. It exposes a simple HTTP API returning the last five notifications with automatic priority-based formatting and expiry.
 ---
 
 ## ✨ Features
