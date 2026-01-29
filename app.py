@@ -66,8 +66,8 @@ logger.info(f"EXPIRY_MAX={EXPIRY_MAX}, EXPIRY_HIGH={EXPIRY_HIGH}, EXPIRY_STANDAR
 logger.info(f"EMOJI_MAX={EMOJI_MAX}, EMOJI_HIGH={EMOJI_HIGH}, EMOJI_STANDARD={EMOJI_STANDARD}")
 
 def redact_url(text):
-    url_pattern = r'https?://\S+'
-    return re.sub(url_pattern, "🔗", text)
+    url_pattern = r'https?://[^\s,]+'
+    return re.sub(url_pattern, " 🔗", text)
 
 @app.route("/notifications")
 def get_notifications():
