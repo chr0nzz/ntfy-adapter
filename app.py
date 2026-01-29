@@ -118,7 +118,7 @@ def get_notifications():
                             messages.append({
                                 "id": raw_ts,
                                 "time": dt.strftime(TIME_STRFTIME),
-                                "message": f"{prefix} **{raw_title}**: {clean_msg}",,
+                                "message": f"{prefix} {raw_title}▪️{clean_msg}",
                                 "click_url": actual_url
                             })
                 except Exception:
