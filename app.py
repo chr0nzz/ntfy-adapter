@@ -94,6 +94,7 @@ def get_notifications():
                     if data.get("event") == "message":
                         priority = data.get("priority", 3)
                         raw_ts = data.get("time", 0)
+                        raw_title = data.get("title", "")
                         raw_msg = data.get("message", "")
 
                         if priority >= 5:
@@ -117,7 +118,7 @@ def get_notifications():
                             messages.append({
                                 "id": raw_ts,
                                 "time": dt.strftime(TIME_STRFTIME),
-                                "message": f"{prefix}  {clean_msg}",
+                                "message": f"{prefix} **{raw_title}**: {clean_msg}",,
                                 "click_url": actual_url
                             })
                 except Exception:
