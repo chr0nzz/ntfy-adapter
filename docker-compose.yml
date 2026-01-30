@@ -11,6 +11,11 @@ services:
       - TZ=America/Toronto
       - CLOCK_FORMAT=24h     # Set time format 12h or 24h
 
+      # --- AUTH ---
+      # Leave these as empty strings or comment them out if NOT using auth
+      - NTFY_USER=
+      - NTFY_PASS=
+
       # --- Notification Limits ---
       # Max number of messages returned in the list (Default: 5)
       - MAX_NOTIFICATIONS=5
