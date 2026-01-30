@@ -173,6 +173,8 @@ You can add one widget per ntfy topic.
 | Variable            | Description                                  | Example                                                 |
 | :------------------ | :------------------------------------------- | :------------------------------------------------------ |
 | `NTFY_URL`          | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
+| `NTFY_USER`          | The User of your ntfy server                | `leave empty if none`                                   |
+| `NTFY_PASS`          | The Password of your ntfy server            | `leave empty if none`                                   |
 | `TZ`                | Your local timezone for timestamps           | `America/Toronto`                                       |
 | `CLOCK_FORMAT`      | Set time format for timestamps               | `24h` or `12h`                                          |
 | `MAX_NOTIFICATIONS` | Returns the max number of notifications      | `5`                                                     |
