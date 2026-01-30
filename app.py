@@ -12,6 +12,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ntfy_adapter")
 
 BASE_URL = os.environ.get("NTFY_URL")
+NTFY_USER = os.environ.get("NTFY_USER")
+NTFY_PASS = os.environ.get("NTFY_PASS")
 EXPIRY_MAX = int(os.environ.get("EXPIRY_MAX", 48))
 EXPIRY_HIGH = int(os.environ.get("EXPIRY_HIGH", 24))
 EXPIRY_STANDARD = int(os.environ.get("EXPIRY_STANDARD", 12))
@@ -60,6 +62,7 @@ def health_check():
 
 logger.info("ntfy-adapter starting...")
 logger.info(f"NTFY_URL={BASE_URL}")
+logger.info(f"AUTH_ENABLED={'Yes' if NTFY_USER else 'No'}")
 logger.info(f"MAX_NOTIFICATIONS={MAX_NOTIFICATIONS}")
 logger.info(f"CLOCK_MODE={CLOCK_MODE}")
 logger.info(f"EXPIRY_MAX={EXPIRY_MAX}, EXPIRY_HIGH={EXPIRY_HIGH}, EXPIRY_STANDARD={EXPIRY_STANDARD}")
@@ -84,6 +87,17 @@ def get_notifications():
         params = {"poll": "1", "since": "48h"}
         response = requests.get(target_url, params=params, timeout=15)
 
+        auth = (NTFY_USER, NTFY_PASS) if NTFY_USER and NTFY_PASS else None
+        
+        response = requests.get(
+            target_url, 
+            params=params, 
+            auth=auth, 
+            timeout=15
+        )
+
+        response.raise_for_status()
+        
         messages = []
         now = time.time()
 
