@@ -49,7 +49,8 @@ Notifications are filtered based on their age and priority level:
 environment:
   - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
   - NTFY_CACHE_DURATION=48h
-  - NTFY_VISITOR_REQUEST_LIMIT_EXEMPT_HOSTS=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10 #fix for error 409, adjustt for your IP if needed
+  # fix for error 409, adjustt for your IP if needed
+  - NTFY_VISITOR_REQUEST_LIMIT_EXEMPT_HOSTS=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10
 volumes:
   - /path-to/ntfy/var/cache/ntfy:/var/cache/ntfy
 ```
