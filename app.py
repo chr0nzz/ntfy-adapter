@@ -128,7 +128,7 @@ def get_notifications():
                             clean_body = re.sub(url_pattern, "", raw_msg).strip()
                             clean_title = raw_title.strip()
 
-                            full_display = f"{prefix} {clean_title}\n{clean_body}"
+                            full_display = f"{prefix} {clean_title}▪️\n{clean_body}"
 
                             if len(full_display) > 200:
                                 full_display = full_display[:197] + "..."
