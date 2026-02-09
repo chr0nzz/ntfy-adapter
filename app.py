@@ -81,12 +81,10 @@ def get_notifications():
         return jsonify([])
 
     target_url = f"{BASE_URL.rstrip('/')}/{topic}/json"
-    url_pattern = r'(https?://[^\s,]+)'
+    url_pattern = r'https?://[^\s,]+'
 
     try:
         params = {"poll": "1", "since": "48h"}
-        response = requests.get(target_url, params=params, timeout=15)
-
         auth = (NTFY_USER, NTFY_PASS) if NTFY_USER and NTFY_PASS else None
         
         response = requests.get(
@@ -127,12 +125,21 @@ def get_notifications():
                             found_urls = re.findall(url_pattern, raw_msg)
                             actual_url = found_urls[0] if found_urls else ""
 
-                            clean_msg = redact_url(raw_msg)
+                            clean_body = re.sub(url_pattern, "", raw_msg).strip()
+                            clean_title = raw_title.strip()
+
+                            full_display = f"{prefix} {clean_title}\n{clean_body}"
+
+                            if len(full_display) > 200:
+                                full_display = full_display[:197] + "..."
+                            
+                            if actual_url:
+                                full_display += " 🔗"
 
                             messages.append({
                                 "id": raw_ts,
                                 "time": dt.strftime(TIME_STRFTIME),
-                                "message": f"{prefix}  {raw_title}▪️{clean_msg}",
+                                "message": full_display,
                                 "click_url": actual_url
                             })
                 except Exception:
