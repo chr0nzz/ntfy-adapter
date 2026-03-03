@@ -1,5 +1,5 @@
 import re
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import requests
 import datetime
@@ -56,7 +56,15 @@ else:
     TIME_STRFTIME = "%H:%M"
 
 app = Flask("ntfy_adapter")
-CORS(app, resources={r"/*": {"origins": "*"}}) 
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 @app.route("/health")
 def health_check():
