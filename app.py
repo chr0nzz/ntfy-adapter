@@ -70,7 +70,6 @@ def add_cors_headers(response):
 def health_check():
     return jsonify({"status": "healthy"}), 200
 
-# NEW: Endpoint to send environment settings to the HTML signage
 @app.route("/config")
 def get_config():
     return jsonify({
@@ -116,7 +115,8 @@ def get_notifications():
             target_url, 
             params=params, 
             auth=auth, 
-            timeout=15
+            timeout=10,
+            stream=True
         )
 
         response.raise_for_status()
@@ -124,7 +124,7 @@ def get_notifications():
         messages = []
         now = time.time()
 
-        for line in response.iter_lines():
+        for line in response.iter_lines(chunk_size=1024):
             if line:
                 try:
                     data = json.loads(line.decode("utf-8"))
@@ -172,8 +172,11 @@ def get_notifications():
 
         messages.sort(key=lambda x: x["id"], reverse=True)
         return jsonify(messages[:MAX_NOTIFICATIONS])
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Network error fetching from ntfy: {e}")
+        return jsonify([])
     except Exception as e:
-        logger.error(f"Error: {e}")
+        logger.error(f"Unexpected error: {e}")
         return jsonify([])
 
 if __name__ == "__main__":
