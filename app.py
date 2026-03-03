@@ -70,6 +70,17 @@ def add_cors_headers(response):
 def health_check():
     return jsonify({"status": "healthy"}), 200
 
+# NEW: Endpoint to send environment settings to the HTML signage
+@app.route("/config")
+def get_config():
+    return jsonify({
+        "emoji_max": EMOJI_MAX,
+        "emoji_high": EMOJI_HIGH,
+        "emoji_standard": EMOJI_STANDARD,
+        "max_notifications": MAX_NOTIFICATIONS,
+        "clock_mode": CLOCK_MODE
+    }), 200
+
 logger.info("ntfy-adapter starting...")
 logger.info(f"NTFY_URL={BASE_URL}")
 logger.info(f"AUTH_ENABLED={'Yes' if NTFY_USER else 'No'}")
@@ -84,6 +95,7 @@ def redact_url(text):
 
 @app.route("/notifications", methods=['GET', 'OPTIONS'])
 def get_notifications():
+
     if request.method == 'OPTIONS':
         return make_response('', 204)
 
