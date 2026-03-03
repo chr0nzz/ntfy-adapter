@@ -56,7 +56,7 @@ else:
     TIME_STRFTIME = "%H:%M"
 
 app = Flask("ntfy_adapter")
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 @app.route("/health")
 def health_check():
