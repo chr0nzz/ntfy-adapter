@@ -57,7 +57,7 @@ else:
 
 app = Flask("ntfy_adapter")
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*", "allow_headers": "*", "methods": "*"}})
 
 @app.after_request
 def add_cors_headers(response):
@@ -82,8 +82,11 @@ def redact_url(text):
     url_pattern = r'https?://[^\s,]+'
     return re.sub(url_pattern, " 🔗", text)
 
-@app.route("/notifications")
+@app.route("/notifications", methods=['GET', 'OPTIONS'])
 def get_notifications():
+    if request.method == 'OPTIONS':
+        return make_response('', 204)
+
     if not BASE_URL:
         return jsonify([])
     topic = request.args.get("topic")
