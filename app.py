@@ -1,5 +1,6 @@
 import re
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import requests
 import datetime
 import os
@@ -55,6 +56,7 @@ else:
     TIME_STRFTIME = "%H:%M"
 
 app = Flask("ntfy_adapter")
+CORS(app)
 
 @app.route("/health")
 def health_check():
