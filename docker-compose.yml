@@ -10,6 +10,7 @@ services:
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto
       - CLOCK_FORMAT=24h     # Set time format 12h or 24h
+      - ENABLE_DISPLAY=false # Set to true to enable
 
       # --- AUTH ---
       # Leave these as empty strings or comment them out if NOT using auth
@@ -31,3 +32,6 @@ services:
       - EMOJI_MAX=**U0001F6A8
       - EMOJI_HIGH=*warning*
       - EMOJI_STANDARD=*check_mark*
+    
+    volumes:
+      - ./config.json:/app/config.json #display config file
