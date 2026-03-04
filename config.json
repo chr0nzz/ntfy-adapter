@@ -1,0 +1,12 @@
+{
+  "theme": "dark",
+  "auto_scroll": true,
+  "display_title": "My Custom Title",
+  "display_icon": "🔔",
+  "api": {
+    "host_ip": "",
+    "port": "5000",
+    "topic": "media",
+    "refresh_rate": 10000
+  }
+}
