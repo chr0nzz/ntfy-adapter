@@ -1,22 +1,34 @@
-# 🔔 ntfy-adapter
----
-ntfy-adapter is a customizable widget for the Homepage dashboard that displays your latest NTFY notifications. It exposes a simple HTTP API returning the last five notifications with automatic priority-based formatting and Retention Policy.
----
+🔔 ntfy-adapter
+===============
 
-## ✨ Features
+ntfy-adapter is a customizable bridge for [ntfy](https://ntfy.sh "null") that fetches, filters, and formats notifications for display in [Homepage](https://gethpmepage.dev) dashboard widgets or a dedicated full-screen status board. It supports automatic priority-based formatting, individual topic limits, and flexible retention policies.
 
-* **Priority-Based Status**: Automatically prefixes messages based on ntfy priority:
-    * 🚨 **Urgent (5+)**: High-visibility alerts.
-    * ⚠️ **High (4)**: Warning-level alerts.
-    * ✔️ **Normal (1–3)**: Standard notifications.
-* **Flexible Emoji Formatting**: 
-    * **Unicode**: Use the `**U` prefix (e.g., `**U0001F6A8`).
-    * **Shortcodes**: Wrap in asterisks (e.g., `*warning*`).
-* **Smart Timezone Handling**: Localized timestamps via the `TZ` environment variable.
-* **Customizable History**: Returns the last **5** notifications by default (configurable via `MAX_NOTIFICATIONS`).
-* **URL Redaction**: Automatically replaces long URLs with `🔗` to keep your feed clean.
+✨ Features
+----------
 
----
+-   **Multi-topic Support**: Aggregates notifications from one or more topics.
+
+-   **Per-Topic Limits**: Displays the last **N** notifications (Default: 5) for *each* topic individually.
+
+-   **Priority-Based Status**: Automatically prefixes messages based on ntfy priority:
+
+    -   🚨 **Urgent (5+)**: High-visibility alerts.
+
+    -   ⚠️ **High (4)**: Warning-level alerts.
+
+    -   ✔️ **Normal (1--3)**: Standard notifications.
+
+-   **Flexible Emoji Formatting**:
+
+    -   **Unicode**: Use the `**U` prefix (e.g., `**U0001F6A8`).
+
+    -   **Shortcodes**: Wrap in asterisks (e.g., `*warning*`).
+
+-   **Smart Timezone Handling**: Localized timestamps via the `TZ` environment variable.
+
+-   **URL Handling**: Automatically replaces long URLs with `🔗` to keep feeds clean while maintaining clickability.
+
+-   **Dedicated Display UI**: A built-in, auto-refreshing full-screen status board (`/display`).
 
 ## 🕒 Retention Policy
 
@@ -34,6 +46,7 @@ Notifications are filtered based on their age and priority level:
 <p align="center">
   <img src="images/dark.png" alt="Dark mode screenshot" width="45%">
   <img src="images/light.png" alt="Light mode screenshot" width="45%">
+  <img src="images/web-display.png" alt="Display UI screenshot" width="45%">
 </p>
 
 ---
@@ -74,6 +87,7 @@ services:
       - NTFY_URL=http://<YOUR_NTFY_IP>:<PORT>
       - TZ=America/Toronto
       - CLOCK_FORMAT=24h     # Set time format 12h or 24h
+      - ENABLE_DISPLAY=true  # Set to false to disable
 
       # --- AUTH ---
       # Leave these as empty strings or comment them out if NOT using auth
@@ -95,6 +109,10 @@ services:
       - EMOJI_MAX=**U0001F6A8
       - EMOJI_HIGH=*warning*
       - EMOJI_STANDARD=*check_mark*
+    
+    # --- Optional for Display UI customization ---
+    volumes:
+      - ./config.json:/app/config.json
 ```
 
 Run the command:
@@ -149,7 +167,8 @@ If you want to build the image yourself instead of pulling from a registry:
 
 ## 🏠 Homepage Widget Configuration
 Add the following to your `services.yaml` file in Homepage:
-You can add one widget per ntfy topic.
+
+You can add one widget per ntfy topic, or group them by separating them with a comma (e.g., media,alerts)
 
 ```yaml
 - Notifications:
@@ -157,7 +176,8 @@ You can add one widget per ntfy topic.
     # icon: sh-ntfy
     widget:
       type: customapi
-      # change to your adapter ip and NTFY topic #
+      # change to your adapter ip and NTFY topic or
+      # group them by separating them with a comma (e.g., media,alerts)
       url: http://<ADAPTER_IP>:5000/notifications?topic=<YOUR_TOPIC>
       display: dynamic-list
       refreshInterval: 5000
@@ -170,13 +190,57 @@ You can add one widget per ntfy topic.
 
 ---
 
+📺 Dedicated Display UI (`/display`)
+------------------------------------
+
+The adapter includes a dedicated page for monitors or tablets. Customize it by creating a `config.json` in the same directory as your Docker Compose file.
+
+### Configuration (`config.json`)
+
+```
+{
+  "theme": "dark",
+  "auto_scroll": true,
+  "display_title": "Home Monitoring",
+  "display_icon": "🏠",
+  "api": {
+    "host_ip": "192.168.1.10",
+    "port": "5000",
+    "topic": "media,alerts,security",
+    "refresh_rate": 10000
+  }
+}
+
+```
+
+### Display Settings Details
+
+-   **`theme`**: `"dark"` or `"light"`.
+
+-   **`auto_scroll`**: Enables vertical scrolling if notifications exceed screen height.
+
+-   **`display_title`**: Header text (Defaults to topic name if empty).
+
+-   **`display_icon`**: Header emoji icon.
+
+-   **`api.topic`**: Comma-separated list of topics to fetch.
+
+-   **`api.refresh_rate`**: How often (ms) the UI polls for new data.
+
+### Access Display
+```
+http://<ADAPTER_IP>:5000/display
+```
+
+---
 ## ⚙️ Environment Variables
 
 | Variable            | Description                                  | Example                                                 |
 | :------------------ | :------------------------------------------- | :------------------------------------------------------ |
 | `NTFY_URL`          | The URL of your ntfy server                  | `http://192.168.1.10:8080` or `https://ntfy.domain.com` |
-| `NTFY_USER`          | The User of your ntfy server                | `leave empty if none`                                   |
-| `NTFY_PASS`          | The Password of your ntfy server            | `leave empty if none`                                   |
+| `NTFY_USER`         | The User of your ntfy server                 | `leave empty if none`                                   |
+| `NTFY_PASS`         | The Password of your ntfy server             | `leave empty if none`                                   |
+| `ENABLE_DISPLAY`    | Toggle the /display UI                       | `true / false`                                          |
 | `TZ`                | Your local timezone for timestamps           | `America/Toronto`                                       |
 | `CLOCK_FORMAT`      | Set time format for timestamps               | `24h` or `12h`                                          |
 | `MAX_NOTIFICATIONS` | Returns the max number of notifications      | `5`                                                     |
@@ -198,4 +262,3 @@ Issues and pull requests are welcome! Feel free to open a ticket if you have sug
   This project is licensed under the **GNU General Public License v3.0**.
   
   Copyright (C) 2026 chronzz (<https://github.com/chr0nzz>)
-
