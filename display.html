@@ -5,20 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NTFY Notifications</title>
     <style>
-        /* =========================================
-           USER CUSTOMIZATION: COLORS & THEMES
-           =========================================
-        */
         :root {
-            /* Theme setting: change 'dark' to 'light' here and on line 180 */
-            --theme: 'dark';
-
             --success: #22c55e;
             --danger: #ef4444;
             --accent: #3b82f6;
         }
 
-        /* DARK THEME */
         [data-theme="dark"] {
             --bg-color: #000000;
             --card-bg: #111111;
@@ -28,7 +20,6 @@
             --header-gradient: linear-gradient(to bottom, #111111, #000000);
         }
 
-        /* LIGHT THEME */
         [data-theme="light"] {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
@@ -70,22 +61,9 @@
             gap: 1rem;
         }
 
-        #clock-container {
-            text-align: right;
-        }
-
-        #clock {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        #date {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 0.2rem;
-        }
+        #clock-container { text-align: right; }
+        #clock { font-size: 2.8rem; font-weight: 800; line-height: 1; }
+        #date { font-size: 1.2rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.2rem; }
 
         main {
             flex: 1;
@@ -93,14 +71,13 @@
             overflow-y: auto;
             scrollbar-width: none;
         }
-
         main::-webkit-scrollbar { display: none; }
 
         .notification-list {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            padding-bottom: 10rem;
+            padding-bottom: 25rem; 
         }
 
         .notification {
@@ -120,10 +97,7 @@
         .notification.priority-high { border-left-color: var(--accent); }
         .notification.priority-standard { border-left-color: var(--success); }
 
-        .message-content {
-            flex: 1;
-        }
-
+        .message-content { flex: 1; }
         .message-text {
             font-size: 2.2rem;
             font-weight: 600;
@@ -132,12 +106,8 @@
             white-space: pre-wrap;
         }
 
-        .meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        .meta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        
         .time-badge {
             font-size: 1.4rem;
             font-weight: 700;
@@ -145,6 +115,16 @@
             background: rgba(128,128,128,0.1);
             padding: 0.4rem 1rem;
             border-radius: 8px;
+        }
+
+        .topic-badge {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            text-transform: uppercase;
         }
 
         @keyframes fadeIn {
@@ -177,12 +157,12 @@
         }
     </style>
 </head>
-<body data-theme="dark"> <!-- Change to "light" here for light mode -->
+<body data-theme="dark">
 
     <div id="error-overlay" class="error-overlay">CONNECTION ERROR: Check ntfy-adapter logs</div>
 
     <header>
-        <h1>⁉️ <span>Topic Feed</span></h1> <!-- Change topic and Emoji-->
+        <h1><span id="topic-icon">⁉️</span> <span id="topic-title">Topic Feed</span></h1>
         <div id="clock-container">
             <div id="clock">00:00:00</div>
             <div id="date">Tuesday, March 3</div>
@@ -190,82 +170,100 @@
     </header>
 
     <main id="scroll-container">
-        <div id="notifications-wrapper" class="notification-list">
-        </div>
+        <div id="notifications-wrapper" class="notification-list"></div>
     </main>
 
     <div id="status-indicator">Updating in <span id="timer">--</span>s</div>
 
     <script>
-        /* =========================================
-           USER CUSTOMIZATION: API SETTINGS
-           =========================================
-        */
-        const HOST_IP = 'NTFY_ADAPTOR_IP'; // Set NTFY Adaptor IP
-        const PORT = '5000';               // Set NTFY Adaptor Port
-        const TOPIC = 'topic';             // Set NTFY Topic
-        const REFRESH_RATE = 10000;        // Time in milliseconds between refreshes
-
-        const API_BASE = `http://${HOST_IP}:${PORT}`;
-        const NOTIF_URL = `${API_BASE}/notifications?topic=${TOPIC}`;
-        const CONFIG_URL = `${API_BASE}/config`;
-
         const wrapper = document.getElementById('notifications-wrapper');
         const scrollContainer = document.getElementById('scroll-container');
         const errorOverlay = document.getElementById('error-overlay');
         const timerEl = document.getElementById('timer');
+        const topicTitle = document.getElementById('topic-title');
+        const topicIcon = document.getElementById('topic-icon');
 
         let lastId = "";
-        let countdown = REFRESH_RATE / 1000;
-
+        let countdown = 10;
+        let NOTIF_URL = "";
+        let REFRESH_RATE = 10000;
+        let isResetting = false; 
+        
         let envConfig = {
-            emoji_max: "🚨",
-            emoji_high: "⚠️",
-            emoji_standard: "✔️",
-            clock_mode: "24h"
+            emoji_max: "🚨", emoji_high: "⚠️", emoji_standard: "✔️",
+            clock_mode: "24h", theme: "dark", auto_scroll: true,
+            display_title: "", display_icon: "",
+            api: { topic: "topic" }
         };
 
         function updateClock() {
             const now = new Date();
             const options = {
                 hour12: envConfig.clock_mode === "12h",
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
             };
             document.getElementById('clock').textContent = now.toLocaleTimeString([], options);
             document.getElementById('date').textContent = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
         }
-        setInterval(updateClock, 1000);
 
-        async function fetchConfig() {
+        async function init() {
             try {
-                const res = await fetch(CONFIG_URL);
+                const res = await fetch('/config');
                 if (res.ok) {
-                    envConfig = await res.json();
-                    updateClock();
+                    const fetchedConfig = await res.json();
+                    envConfig = { ...envConfig, ...fetchedConfig };
                 }
-            } catch (e) { console.warn("Failed to fetch server config, using defaults."); }
+            } catch (e) { console.warn("Using defaults."); }
+
+            document.body.setAttribute('data-theme', envConfig.theme || 'dark');
+            
+            const api = envConfig.api || {};
+            REFRESH_RATE = api.refresh_rate || 10000;
+            countdown = REFRESH_RATE / 1000;
+
+            const topic = api.topic || "topic";
+            
+            if (envConfig.display_title) {
+                topicTitle.textContent = envConfig.display_title;
+            } else {
+                topicTitle.textContent = topic.includes(',') ? "Multi-Topic Feed" : (topic.charAt(0).toUpperCase() + topic.slice(1) + " Feed");
+            }
+
+            if (envConfig.display_icon) {
+                topicIcon.textContent = envConfig.display_icon;
+            }
+
+            const baseUrl = api.host_ip ? `http://${api.host_ip}:${api.port || 5000}` : '';
+            NOTIF_URL = `${baseUrl}/notifications?topic=${topic}`;
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            if (envConfig.auto_scroll !== false) setInterval(autoScroll, 50);
+
+            loadData();
+            setInterval(() => {
+                countdown--;
+                timerEl.textContent = Math.max(0, countdown);
+                if (countdown <= 0) {
+                    loadData();
+                    countdown = REFRESH_RATE / 1000;
+                }
+            }, 1000);
         }
 
         async function loadData() {
             try {
-                const response = await fetch(NOTIF_URL, { mode: 'cors' });
-                if (!response.ok) throw new Error("API Offline");
-
+                const response = await fetch(NOTIF_URL);
+                if (!response.ok) throw new Error("Offline");
                 const data = await response.json();
                 const dataHash = JSON.stringify(data);
-
-                if (dataHash !== lastId) {
-                    render(data);
-                    lastId = dataHash;
+                if (dataHash !== lastId) { 
+                    render(data); 
+                    lastId = dataHash; 
                 }
                 errorOverlay.style.display = 'none';
-            } catch (err) {
-                console.error(err);
-                errorOverlay.style.display = 'block';
-            }
-            countdown = REFRESH_RATE / 1000;
+            } catch (err) { errorOverlay.style.display = 'block'; }
         }
 
         function render(items) {
@@ -284,40 +282,41 @@
                         <div class="message-content">
                             <div class="message-text">${item.message}</div>
                             <div class="meta">
+                                ${item.topic ? `<div class="topic-badge">${item.topic}</div>` : ''}
                                 <div class="time-badge">${item.time}</div>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
-
-            scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if (!isResetting) {
+                scrollContainer.scrollTo({ top: 0, behavior: 'auto' });
+            }
         }
 
         function autoScroll() {
-            if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
-                const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-                const current = scrollContainer.scrollTop;
+            if (isResetting) return;
 
+            const current = scrollContainer.scrollTop;
+            const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+
+            if (maxScroll > 0) {
                 if (current >= maxScroll - 5) {
-                    setTimeout(() => scrollContainer.scrollTo({top: 0, behavior: 'smooth'}), 3000);
+                    isResetting = true;
+                    setTimeout(() => {
+                        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                        setTimeout(() => {
+                            isResetting = false;
+                        }, 3000);
+                    }, 5000);
                 } else {
                     scrollContainer.scrollBy({ top: 1, behavior: 'auto' });
                 }
             }
         }
-        setInterval(autoScroll, 50);
 
-        setInterval(() => {
-            countdown--;
-            timerEl.textContent = Math.max(0, countdown);
-            if (countdown <= 0) loadData();
-        }, 1000);
-
-        (async () => {
-            await fetchConfig();
-            loadData();
-        })();
+        init();
     </script>
 </body>
 </html>
