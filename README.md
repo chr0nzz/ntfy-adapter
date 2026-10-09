@@ -255,6 +255,9 @@ http://<ADAPTER_IP>:5000/display
 ## 🤝 Contributing
 Issues and pull requests are welcome! Feel free to open a ticket if you have suggestions for new features.
 
+## 💬 Community
+Questions, ideas, or want to show off your setup? Join the [xyzlab.dev Discord](https://discord.gg/eUb9CyuqHC).
+
   ---
   
   ## 📄 License
